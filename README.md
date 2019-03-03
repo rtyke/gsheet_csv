@@ -8,7 +8,8 @@ https://developers.google.com/drive/api/v3/quickstart/python
 4. Change data on config.py. Your can learn SPREADSHEET_ID from url of the Spreadsheet
 https://developers.google.com/sheets/api/guides/concepts#sheet_id
 
-5. Run the script
+5. Run the script.
+
 Import all csv rows:
 ```
 python import_csv.py path_to_your_csv
