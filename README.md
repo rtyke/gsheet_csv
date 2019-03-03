@@ -1,22 +1,3 @@
-Use this CLI-tool to import csv in your Google Sheet.
-
-Requirements:
-```
-click
-google-api-python-client
-```
-
-
-
-Download credential.json via "Enable The Drive Api" button to your working directory.
-https://developers.google.com/drive/api/v3/quickstart/python
-
-Run the script
-
-----
-https://stackoverflow.com/questions/42362702/how-to-import-a-csv-file-using-google-sheets-api-v4
-
-
 1. Download `credential.json` via "Enable The Drive Api" button to your working directory.
 https://developers.google.com/drive/api/v3/quickstart/python
 
