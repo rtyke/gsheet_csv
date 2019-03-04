@@ -70,11 +70,11 @@ def write_row(service, row_number, row):
     return result
 
 
-def yield_csv_row(csv_path, cut_first_line=False):
+def yield_csv_row(csv_path, write_first_row=False):
     with open(csv_path) as fo:
         csv_reader = csv.reader(fo)
         for i, row in enumerate(csv_reader):
-            if i == 0 and cut_first_line:
+            if i == 0 and not write_first_row:
                 continue
             else:
                 yield ', '.join(row)
@@ -89,8 +89,8 @@ def get_first_blank_row_coordinate(service):
     return len(first_column_values)
 
 
-def if_cut_first_line():
-    if len(sys.argv) > 2 and sys.argv[2] == 'cut':
+def if_import_first_row():
+    if len(sys.argv) > 2 and sys.argv[2] == 'first':
         return True
     else:
         return False
@@ -100,7 +100,7 @@ def main():
     service = auth()
     row_number = get_first_blank_row_coordinate(service)
     for row in yield_csv_row(
-            csv_path=sys.argv[1], cut_first_line=if_cut_first_line()):
+            csv_path=sys.argv[1], write_first_row=if_import_first_row()):
         write_row(service, row_number, row)
         row_number += 1
 
