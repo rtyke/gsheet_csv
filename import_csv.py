@@ -48,7 +48,7 @@ def get_sheet_id_by_name(service, sheet_name=SHEET_NAME):
     return None
 
 
-def write_row(service, row_number, row):
+def write_data(service, row_number, data):
     sheet_id = get_sheet_id_by_name(service)
     grid_coordinate = {
         'sheetId': sheet_id,
@@ -57,7 +57,7 @@ def write_row(service, row_number, row):
     }
     change_this = {'requests': [{'pasteData': {
         'coordinate': grid_coordinate,
-        'data': row,
+        'data': data,
         'type': 'PASTE_NORMAL',
         'delimiter': ','
     }}]}
@@ -70,14 +70,16 @@ def write_row(service, row_number, row):
     return result
 
 
-def yield_csv_row(csv_path, write_first_row=False):
+def read_csv(csv_path, read_first_row=False):
+    rows = []
     with open(csv_path) as fo:
         csv_reader = csv.reader(fo)
         for i, row in enumerate(csv_reader):
-            if i == 0 and not write_first_row:
+            if i == 0 and not read_first_row:
                 continue
             else:
-                yield ', '.join(row)
+                rows.append(', '.join(row))
+    return '\n'.join(rows)
 
 
 def get_first_blank_row_coordinate(service):
@@ -99,13 +101,9 @@ def if_import_first_row():
 def main():
     service = auth()
     row_number = get_first_blank_row_coordinate(service)
-    for row in yield_csv_row(
-            csv_path=sys.argv[1], write_first_row=if_import_first_row()):
-        write_row(service, row_number, row)
-        row_number += 1
+    csv_data = read_csv(csv_path=sys.argv[1], read_first_row=if_import_first_row())
+    write_data(service, row_number, csv_data)
 
 
 if __name__ == '__main__':
     main()
-
-
